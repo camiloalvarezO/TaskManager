@@ -26,12 +26,21 @@ Esta es una API RESTful para la gestión de tareas, construida con Node.js, Expr
 
    - Crea una base de datos MySQL llamada `task_management`
    - Ejecuta el siguiente script SQL para crear la tabla de tareas:
+
      ```sql
      CREATE TABLE tasks (
        id INT AUTO_INCREMENT PRIMARY KEY,
        title VARCHAR(255) NOT NULL,
        description TEXT,
        status ENUM('pendiente', 'en_progreso', 'completada') DEFAULT 'pendiente'
+     );
+
+     CREATE TABLE users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      username VARCHAR(100),
+      password VARCHAR(100),
+      status ENUM('activo','inactivo') DEFAULT 'activo'
      );
      ```
 
