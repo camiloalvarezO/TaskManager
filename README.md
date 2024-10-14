@@ -12,8 +12,8 @@ Esta es una API RESTful para la gestión de tareas, construida con Node.js, Expr
 1. Clona este repositorio:
 
    ```
-   git clone <url-del-repositorio>
-   cd task-management-api
+   git clone https://github.com/ememendoza/task_manager.git
+   cd task_manager
    ```
 
 2. Instala las dependencias:
