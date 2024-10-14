@@ -14,16 +14,17 @@ class UserService {
     }
   
     async createUser(userData) {
-      const user = new User(null, userData.title, userData.description, 'pendiente');
+      const user = new User(null, userData.name, userData.username, userData.password, 'activo');
       return this.userRepository.create(user);
     }
   
     async updateUser(id, userData) {
       const user = await this.userRepository.findById(id);
-      if (!user) throw new Error('Tarea no encontrada');
+      if (!user) throw new Error('Usuario no encontrado');
   
-      user.title = userData.title || user.title;
-      user.description = userData.description || user.description;
+      user.name = userData.name || user.name;
+      user.username = userData.username || user.username;
+      user.password = userData.password || user.password;
       user.status = userData.status || user.status;
   
       await this.userRepository.update(user);
