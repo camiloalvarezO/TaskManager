@@ -1,0 +1,14 @@
+{
+  "name": "task-management-api",
+  "version": "1.0.0",
+  "description": "API de gestión de tareas con arquitectura hexagonal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mysql2": "^3.11.3"
+  }
+}
