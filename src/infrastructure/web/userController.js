@@ -18,8 +18,12 @@ function userController(userService) {
   });
 
   router.post('/', async (req, res) => {
-    const userId = await userService.createUser(req.body);
-    res.status(201).json({ id: userId });
+    try {
+      const userId = await userService.createUser(req.body);
+      res.status(201).json({ id: userId });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   });
 
   router.put('/:id', async (req, res) => {

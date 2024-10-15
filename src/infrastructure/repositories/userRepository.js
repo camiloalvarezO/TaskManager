@@ -7,8 +7,8 @@ class MySQLUserRepository extends UserRepository {
     super();
     this.pool = mysql.createPool({
       host: 'localhost',
-      user: 'db_user',
-      password: 'Eme2002hw',
+      user: 'root',
+      password: '',
       database: 'task_management',
       waitForConnections: true,
       connectionLimit: 10,
