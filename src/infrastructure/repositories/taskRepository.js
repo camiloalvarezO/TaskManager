@@ -18,20 +18,25 @@ class MySQLTaskRepository extends TaskRepository {
 
   async findAll() {
     const [rows] = await this.pool.query('SELECT * FROM tasks');
-    return rows.map(row => new Task(row.id, row.title, row.description, row.status));
+    return rows.map(row => new Task(row.id, row.title, row.description, row.status, row.userId));
+  }
+
+  async findByUserId(userId) {
+    const [rows] = await this.pool.query('SELECT * FROM tasks WHERE userId = ?', [userId]);
+    return rows.map(row => new Task(row.id, row.title, row.description, row.status, row.userId));
   }
 
   async findById(id) {
     const [rows] = await this.pool.query('SELECT * FROM tasks WHERE id = ?', [id]);
     if (rows.length === 0) return null;
     const row = rows[0];
-    return new Task(row.id, row.title, row.description, row.status);
+    return new Task(row.id, row.title, row.description, row.status, row.userId);
   }
 
   async create(task) {
     const [result] = await this.pool.query(
-      'INSERT INTO tasks (title, description, status) VALUES (?, ?, ?)',
-      [task.title, task.description, task.status]
+      'INSERT INTO tasks (title, description, status, userId) VALUES (?, ?, ?, ?)',
+      [task.title, task.description, task.status, task.userId]
     );
     return result.insertId;
   }

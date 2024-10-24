@@ -22,6 +22,7 @@ function userController(userService) {
       const userId = await userService.createUser(req.body);
       res.status(201).json({ id: userId });
     } catch (error) {
+      console.error('Error creating user:', error);
       res.status(500).json({ message: error.message });
     }
   });

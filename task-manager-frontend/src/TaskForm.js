@@ -1,39 +1,54 @@
-// src/TaskForm.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { Box, TextField, Button } from '@mui/material';
 
-function TaskForm({ task, onSave }) {
-  const [title, setTitle] = useState(task ? task.title : '');
-  const [description, setDescription] = useState(task ? task.description : '');
+function TaskForm({ token, onTaskCreated }) {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const taskData = { title, description };
-
     try {
-      if (task) {
-        await axios.put(`/api/tasks/${task.id}`, taskData);
-      } else {
-        await axios.post('/api/tasks', taskData);
-      }
-      onSave();
+      await axios.post('http://localhost:5000/api/tasks', {
+        title,
+        description
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setTitle('');
+      setDescription('');
+      onTaskCreated();
     } catch (error) {
-      console.error('Error saving task:', error);
+      console.error('Error creating task:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Title</label>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
-      </div>
-      <div>
-        <label>Description</label>
-        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
-      </div>
-      <button type="submit">{task ? 'Update' : 'Create'} Task</button>
-    </form>
+    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+      <TextField
+        label="Title"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+      />
+      <TextField
+        label="Description"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        required
+      />
+      <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+        Create Task
+      </Button>
+    </Box>
   );
 }
 

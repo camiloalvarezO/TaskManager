@@ -28,12 +28,26 @@ class MySQLUserRepository extends UserRepository {
     return new User(row.id, row.name, row.username, row.password, row.status);
   }
 
+  async findByUsername(username) {
+    const [rows] = await this.pool.query('SELECT * FROM users WHERE username = ?', [username]);
+    if (rows.length === 0) return null;
+    const row = rows[0];
+    return new User(row.id, row.name, row.username, row.password, row.status);
+  }
+  
   async create(user) {
-    const [result] = await this.pool.query(
-      'INSERT INTO users (name, username, password, status) VALUES (?, ?, ?, ?)',
-      [user.name, user.username, user.password, user.status]
-    );
-    return result.insertId;
+    try {
+      console.log('Creating user:', user);
+      const [result] = await this.pool.query(
+        'INSERT INTO users (name, username, password, status) VALUES (?, ?, ?, ?)',
+        [user.name, user.username, user.password, user.status]
+      );
+      console.log('User created with ID:', result.insertId);
+      return result.insertId;
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw new Error('Error creating user');
+    }
   }
 
   async update(user) {
